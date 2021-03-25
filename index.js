@@ -2,16 +2,20 @@
 let player1Score = 0
 let player2Score = 0
 let player3Score = 0
+let player4Score = 0 
 let player1Turn = true
 let player2Turn = false
 let player3Turn = false
+let player4Turn = false
 // Create variables to store references to the necessary DOM nodes
 const player1Dice = document.getElementById("player1Dice")
 const player2Dice = document.getElementById("player2Dice")
 const player3Dice = document.getElementById("player3Dice")
+const player4Dice = document.getElementById("player4Dice")
 const player1Scoreboard = document.getElementById("player1Scoreboard")
 const player2Scoreboard = document.getElementById("player2Scoreboard")
 const player3Scoreboard = document.getElementById("player3Scoreboard")
+const player4Scoreboard = document.getElementById("player4Scoreboard")
 const message = document.getElementById("message")
 const rollBtn = document.getElementById("rollBtn")
 const resetBtn = document.getElementById("resetBtn")
@@ -35,6 +39,7 @@ function showOptionButton() {
         player1Scoreboard.textContent = player1Score
         player1Dice.textContent = randomNumber
         player3Dice.classList.remove("active")
+        player4Dice.classList.remove("active")
         player1Dice.classList.remove("active")
         player2Dice.classList.add("active")
         message.textContent = "Player 2 Turn"
@@ -46,13 +51,24 @@ function showOptionButton() {
         player2Dice.classList.remove("active")
         player1Dice.classList.remove("active")
         player3Dice.classList.add("active")
+        player4Dice.classList.remove("active")
         message.textContent = "Player 3 Turn"
-    } else {
+    } else if (player3Turn){
         player3Score += randomNumber
         player3Scoreboard.textContent = player3Score
         player3Dice.textContent = randomNumber
         player3Dice.classList.remove("active")
         player2Dice.classList.remove("active")
+        player1Dice.classList.remove("active")
+        player4Dice.classList.add("active")
+        message.textContent = "Player 4 Turn"
+    }else {
+        player4Score += randomNumber
+        player4Scoreboard.textContent = player4Score
+        player4Dice.textContent = randomNumber
+        player3Dice.classList.remove("active")
+        player2Dice.classList.remove("active")
+        player4Dice.classList.remove("active")
         player1Dice.classList.add("active")
         message.textContent = "Player 1 Turn"
     }
@@ -62,8 +78,11 @@ function showOptionButton() {
     }else if (player2Turn){
         player2Turn = false
         player3Turn = true
-    } else {
+    } else if (player3Turn){
         player3Turn = false
+        player4Turn = true
+    }else {
+        player4Turn = false
         player1Turn = true
     }
     
@@ -75,6 +94,9 @@ function showOptionButton() {
         showResetButton()
     } else if (player3Score >= 20) {
         message.textContent = "Player 3 Won 🎉"
+        showResetButton()
+    } else if (player4Score >= 20) {
+        message.textContent = "Player 4 Won 🎉"
         showResetButton()}
     // player1Turn = !player1Turn
 })
@@ -86,18 +108,22 @@ resetBtn.addEventListener("click", function(){
 function reset() {
     player1Score = 0
     player2Score = 0
-    player3Score = 0 
+    player3Score = 0
+    player4Score = 0 
     player1Turn = true
     player1Scoreboard.textContent = 0
     player2Scoreboard.textContent = 0
     player3Scoreboard.textContent = 0
+    player4Scoreboard.textContent = 0
     player1Dice.textContent = "-"
     player2Dice.textContent = "-"
     player3Dice.textContent = "-"
+    player4Dice.textContent = "-"
     message.textContent = "Player 1 Turn"
     resetBtn.style.display = "none"
     rollBtn.style.display = "block"
     player2Dice.classList.remove("active")
+    player4Dice.classList.remove("active")
     player3Dice.classList.remove("active")
     player1Dice.classList.add("active")
 }
